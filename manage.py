@@ -3,6 +3,10 @@ from flask.ext.migrate import MigrateCommand
 from flask.ext.script import Manager
 from microblog.app import create_app
 
+
+from microblog.models.user import User
+from microblog.models.post import Post
+
 app = create_app("microblog")
 
 manager = Manager(app)

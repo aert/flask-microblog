@@ -17,4 +17,4 @@ OPENID_PROVIDERS = [
 ]
 
 # SQLAlchemy
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'test.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(basedir), 'test.db')
