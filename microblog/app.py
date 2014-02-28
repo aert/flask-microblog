@@ -5,8 +5,8 @@ from . import extensions
 __all__ = ["create_app"]
 
 
-def create_app(app_name):
-    app = Flask(app_name)
+def create_app():
+    app = Flask(__name__)
     app.config.from_object("microblog.config")
     configure_blueprints(app)
     configure_extensions(app)

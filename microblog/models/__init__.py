@@ -1,1 +1,2 @@
-__author__ = 'ari'
+from .post import *
+from .user import *
