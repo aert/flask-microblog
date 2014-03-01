@@ -1,6 +1,7 @@
-import os
+from os.path import join, abspath, dirname
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+BASEDIR = abspath(dirname(__file__))
+DATADIR = dirname(BASEDIR)
 
 
 # Flask-WTF
@@ -17,4 +18,4 @@ OPENID_PROVIDERS = [
 ]
 
 # SQLAlchemy
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(basedir), 'test.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(DATADIR, 'test.db')

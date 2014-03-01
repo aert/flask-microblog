@@ -1,5 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, g
 from flask import render_template
+from flask.ext.login import login_required
 
 
 index_bp = Blueprint("index", __name__, template_folder="templates")
@@ -7,8 +8,9 @@ index_bp = Blueprint("index", __name__, template_folder="templates")
 
 @index_bp.route('/')
 @index_bp.route('/index')
+@login_required
 def home():
-    user = {'nickname': 'Guest'}
+    user = g.user
     posts = [  # fake array of posts
         {
             'author': {'nickname': 'John'},
