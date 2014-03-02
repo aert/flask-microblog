@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
 <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -37,11 +37,13 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <!-- Right Nav Section -->
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ url_for('index.home') }}">
-                    <span class="glyphicon glyphicon-home"></span>
-                Home</a>
-            </li>
             {% if g.user.is_authenticated() %}
+                <li>
+                    <a href="{{ url_for('user.user', nickname=g.user.nickname) }}"><span class="glyphicon glyphicon-user"></span>
+                        You Profile
+                    </a>
+                </li>
+
                 <li class="divider"></li>
 
                 <li><a href="{{ url_for('login.logout') }}">
@@ -54,7 +56,7 @@
 </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container">
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}

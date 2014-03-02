@@ -17,6 +17,7 @@ def create_app():
 def configure_blueprints(app):
     app.register_blueprint(frontend.index_bp)
     app.register_blueprint(frontend.login_bp)
+    app.register_blueprint(frontend.user_bp)
 
 
 def configure_extensions(app):

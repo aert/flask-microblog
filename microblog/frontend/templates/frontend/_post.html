@@ -1,0 +1,16 @@
+
+<table class="col-xs-12">
+    <col style="width: 60px;"/>
+    <col width="*"/>
+    <tr>
+        <td valign="top">
+            <img src="{{ post.author.avatar(50) }}"
+                 alt="user-icon"/>
+        </td>
+        <td>
+            <em>{{ post.author.nickname }} says:</em><br/>
+            <b>{{ post.body }}</b>
+        </td>
+    </tr>
+</table>
+<p>&nbsp;</p>

@@ -1,8 +1,9 @@
+import datetime
 import flask
 from flask import Blueprint, render_template, flash, g, url_for, session, \
     request
 from flask.ext.login import login_user, current_user, logout_user
-from flask_wtf import Form
+from flask.ext.wtf import Form
 from werkzeug.utils import redirect
 from wtforms import TextField, BooleanField
 from wtforms.validators import Required
@@ -13,15 +14,22 @@ from microblog.models import User, ROLE_USER
 login_bp = Blueprint("login", __name__, template_folder="templates")
 
 
+# --- Forms -------------------------------------------------------------------
+
 class LoginForm(Form):
     openid = TextField('openid', validators=[Required()])
     remember_me = BooleanField('remember_me', default=None)
 
 
+# --- Controllers -------------------------------------------------------------
 
 @login_bp.before_app_request
 def before_request():
     g.user = current_user
+    if g.user.is_authenticated():
+        g.user.last_seen = datetime.datetime.utcnow()
+        db.session.add(g.user)
+        db.session.commit()
 
 
 @login_bp.route("/login", methods=["GET", "POST"])
@@ -39,6 +47,12 @@ def login():
         title="Sign In",
         form=form,
         providers=flask.current_app.config['OPENID_PROVIDERS'])
+
+
+@login_bp.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index.home'))
 
 
 @oid.after_login
@@ -65,9 +79,3 @@ def after_login(resp):
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-
-@login_bp.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index.home'))

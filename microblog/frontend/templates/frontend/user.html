@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page-header"><h1>User</h1></div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <img src="{{ user.avatar(50) }}" alt="user-icon" style="vertical-align: top"/>
+
+            <div style="display: inline-block">
+                User: <strong>{{ user.nickname }}</strong>
+                {% if g.user.id == user.id %}
+                    - <a href="{{ url_for('user.edit') }}">Edit</a>
+                {% endif %}
+                <br/>
+                {% if user.about_me %}
+                    {{ user.about_me }}<br/>
+                {% endif %}
+                {% if user.last_seen %}
+                    <em>Last seen on: {{ user.last_seen }}</em>
+                {% endif %}
+            </div>
+        </div>
+        <div class="panel-body">
+            {% for post in posts %}
+                {% include "frontend/_post.html" %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
