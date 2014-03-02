@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         {% if title %}
             {{ title }} - microblog
@@ -8,27 +10,75 @@
             My microblog !
         {% endif %}
     </title>
+
+    <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <!-- If you are using the gem version, you need this only -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/app.css') }}">
+
 </head>
 <body>
-    <div>
-        Microblog:
-        <a href="{{ url_for('index.home') }}">Home</a>
-        {% if g.user.is_authenticated() %}
-            | <a href="{{ url_for('login.logout') }}">Logout</a>
-        {% endif %}
+
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="{{ url_for('index.home') }}">Microblog</a>
     </div>
-    <hr/>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <!-- Right Nav Section -->
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('index.home') }}">
+                    <span class="glyphicon glyphicon-home"></span>
+                Home</a>
+            </li>
+            {% if g.user.is_authenticated() %}
+                <li class="divider"></li>
+
+                <li><a href="{{ url_for('login.logout') }}">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    Logout</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+</nav>
+
+<div class="container-fluid">
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <ul>
-                {% for msg in messages %} <li>{{ msg }}</li> {% endfor %}
-            </ul>
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {% for msg in messages %}
+                    {{ msg }}<br/>
+                {% endfor %}
+            </div>
         {% endif %}
     {% endwith %}
 
     {% block content %}
     {% endblock %}
 
+</div>
+
+
+<!-- Javascript -->
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script>
+    //$(document).foundation();
+</script>
 </body>
 </html>

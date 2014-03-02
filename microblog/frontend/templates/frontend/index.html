@@ -2,12 +2,26 @@
 
 {% block content %}
 
-    <h3>Hello {{user.nickname}} !!</h3>
-
-    <div>
-        {% for post in posts %}
-            <p>{{post.author.nickname}} says: {{post.body}}</p>
-        {% endfor %}
+    <div class="page-header">
+        <h1>Index</h1>
     </div>
 
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading">
+            Hello {{user.nickname}} !!
+        </div>
+
+        <div class="panel-body">
+            {% for post in posts %}
+                {{post.author.nickname}} says:
+                <blockquote>
+                    {{post.body}}
+                </blockquote>
+            {% endfor %}
+        </div>
+        <ul class="list-group">
+        </ul>
+    </div>
 {% endblock %}

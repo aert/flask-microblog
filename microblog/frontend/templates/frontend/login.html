@@ -15,23 +15,50 @@
         }
     </script>
 
-    <h1>Sign In</h1>
-        <form action="" method="post" name="login">
+
+    <div class="page-header">
+        <h1>Login</h1>
+    </div>
+
+    <div class="container">
+    <form action="" method="post" name="login" role="form">
+
+        <fieldset class="col-xs-6">
+            <legend>Sign In</legend>
             {{ form.hidden_tag() }}
-            <p>
-                Please enter your OpenID:<br/>
-                {{ form.openid(size=80) }}<br/>
-                {% for error in form.errors.openid %}
-                    <span style="color: red">{{ error }}</span>
-                {% endfor %}
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <label for="openid">Please enter your OpenID</label>
+                    {{ form.openid(size=80, class="form-control") }}
+                    {% for error in form.errors.openid %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
 
-                {% for pr in providers %}
-                    <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}')">{{ pr.name }}</a>
-                {% endfor %}
-            </p>
-            <p>{{ form.remember_me }} Remember Me</p>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="button-bar">
+                        <div class="btn-group">
+                        {% for pr in providers %}
+                            <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}')" class="btn btn-default">{{ pr.name }}</a>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                        <br/><br/>
+                </div>
+            </div>
 
-            <p><input type="submit" value="Sign In"/></p>
-        </form>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    {{ form.remember_me }} Remember Me <br/><br/>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </div>
+        </fieldset>
+    </form>
+    </div>
 {% endblock %}
