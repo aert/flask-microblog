@@ -21,5 +21,6 @@ def run_prod():
 def run_debug():
     app.run("0.0.0.0", debug=True)
 
+
 if __name__ == "__main__":
     manager.run()

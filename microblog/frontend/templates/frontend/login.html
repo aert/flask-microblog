@@ -21,44 +21,49 @@
     </div>
 
     <div class="container">
-    <form action="" method="post" name="login" role="form">
+        <form action="" method="post" name="login" role="form">
 
-        <fieldset class="col-xs-6">
-            <legend>Sign In</legend>
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                <div class="col-xs-12">
-                    <label for="openid">Please enter your OpenID</label>
-                    {{ form.openid(size=80, class="form-control") }}
-                    {% for error in form.errors.openid %}
-                        <span class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                </div>
-
-            </div>
-            <div class="form-group">
-                <div class="col-xs-12">
-                    <div class="button-bar">
-                        <div class="btn-group">
-                        {% for pr in providers %}
-                            <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}')" class="btn btn-default">{{ pr.name }}</a>
+            <fieldset class="col-md-6 col-md-offset-3">
+                <legend>Sign In</legend>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <label for="openid">Please enter your OpenID</label>
+                        {{ form.openid(size=80, class="form-control") }}
+                        {% for error in form.errors.openid %}
+                            <span class="text-danger">{{ error }}</span>
                         {% endfor %}
-                        </ul>
                     </div>
-                        <br/><br/>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-xs-12">
-                    {{ form.remember_me }} Remember Me <br/><br/>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <br/>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-            </div>
-        </fieldset>
-    </form>
+                        <div class="button-bar">
+                            <div class="btn-group">
+                                {% for pr in providers %}
+                                    <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}')"
+                                       class="btn btn-default">{{ pr.name }}</a>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                            <br/><br/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            {{ form.remember_me }} Remember Me <br/><br/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Sign In
+                        </button>
+                    </div>
+            </fieldset>
+        </form>
     </div>
 {% endblock %}
