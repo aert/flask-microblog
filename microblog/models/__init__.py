@@ -1,2 +1,2 @@
-from .post import *
-from .user import *
+from .post import *  # NOQA
+from .user import *  # NOQA
