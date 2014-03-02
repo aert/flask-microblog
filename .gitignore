@@ -32,6 +32,7 @@ nosetests.xml
 *.mo
 
 test.db
+test_tests.db
 
 # Mr Developer
 .mr.developer.cfg
