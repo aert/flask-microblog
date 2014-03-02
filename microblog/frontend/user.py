@@ -16,6 +16,22 @@ class EditForm(Form):
     nickname = TextField('nickname', validators=[Required()])
     about_me = TextAreaField('about_me', validators=[Length(min=0, max=140)])
 
+    def __init__(self, original_nickname, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+        self.original_nickname = original_nickname
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        if self.nickname.data == self.original_nickname:
+            return True
+        nickname_exists = User.check_nickname_exists(self.nickname.data)
+        if nickname_exists:
+            self.nickname.errors.append('This nickname is already in use.'
+                                        'Please choose another one.')
+            return False
+        return True
+
 
 # --- Controllers -------------------------------------------------------------
 
@@ -39,7 +55,7 @@ def user(nickname):
 @user_bp.route("/user/edit", methods=['GET', 'POST'])
 @login_required
 def edit():
-    form = EditForm()
+    form = EditForm(g.user.nickname)
     if form.validate_on_submit():
         g.user.nickname = form.nickname.data
         g.user.about_me = form.about_me.data

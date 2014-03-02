@@ -32,5 +32,21 @@ class User(db.Model):
             md5(self.email).hexdigest(),
             str(size))
 
+    @staticmethod
+    def check_nickname_exists(nickname):
+        return User.query.filter_by(nickname=nickname).first() is not None
+
+    @staticmethod
+    def make_unique_nickname(nickname):
+        if not User.check_nickname_exists(nickname):
+            return nickname
+        version = 2
+        while True:
+            new_nickname = nickname + str(version)
+            if not User.check_nickname_exists(new_nickname):
+                break
+            version += 1
+        return new_nickname
+
     def __repr__(self):
         return "<User %r>" % self.nickname

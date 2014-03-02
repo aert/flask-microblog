@@ -1,8 +1,7 @@
-import datetime
 import flask
 from flask import Blueprint, render_template, flash, g, url_for, session, \
     request
-from flask.ext.login import login_user, current_user, logout_user
+from flask.ext.login import login_user, logout_user
 from flask.ext.wtf import Form
 from werkzeug.utils import redirect
 from wtforms import TextField, BooleanField
@@ -22,15 +21,6 @@ class LoginForm(Form):
 
 
 # --- Controllers -------------------------------------------------------------
-
-@login_bp.before_app_request
-def before_request():
-    g.user = current_user
-    if g.user.is_authenticated():
-        g.user.last_seen = datetime.datetime.utcnow()
-        db.session.add(g.user)
-        db.session.commit()
-
 
 @login_bp.route("/login", methods=["GET", "POST"])
 @oid.loginhandler
@@ -65,6 +55,7 @@ def after_login(resp):
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
+        nickname = User.make_unique_nickname(nickname)
         user = User(nickname=nickname, email=resp.email, role=ROLE_USER)
         db.session.add(user)
         db.session.commit()

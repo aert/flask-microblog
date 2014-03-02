@@ -14,7 +14,7 @@ manager.add_command("db", MigrateCommand)
 
 @manager.command
 def run_prod():
-    app.run(debug=False)
+    app.run("0.0.0.0", debug=False)
 
 
 @manager.command
