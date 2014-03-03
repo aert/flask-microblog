@@ -18,8 +18,18 @@
                     {{ user.about_me }}<br/>
                 {% endif %}
                 {% if user.last_seen %}
-                    <em>Last seen on: {{ user.last_seen }}</em>
+                    <em>Last seen on: {{ user.last_seen }}</em><br/>
                 {% endif %}
+                <div>
+                    {{ user.followers.count() }} followers
+                    {% if user.id != g.user.id %}
+                        {% if not g.user.is_following(user) %}
+                            | <a href="{{ url_for('user.follow', nickname=user.nickname) }}">Follow</a>
+                        {% else %}
+                            | <a href="{{ url_for('user.unfollow', nickname=user.nickname) }}">UnFollow</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="panel-body">

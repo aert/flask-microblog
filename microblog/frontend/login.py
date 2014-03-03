@@ -48,7 +48,7 @@ def logout():
 @oid.after_login
 def after_login(resp):
     if resp.email is None or resp.email == "":
-        flash('Invalid login. Please try again.')
+        flash('Invalid login. Please try again.', "danger")
         return redirect(url_for('login'))
     user = User.query.filter_by(email=resp.email).first()
     if user is None:
@@ -58,6 +58,9 @@ def after_login(resp):
         nickname = User.make_unique_nickname(nickname)
         user = User(nickname=nickname, email=resp.email, role=ROLE_USER)
         db.session.add(user)
+        db.session.commit()
+        # make the user follow him/herself
+        db.session.add(user.follow(user))
         db.session.commit()
     remember_me = False
     if 'remember_me' in session:

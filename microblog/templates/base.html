@@ -23,49 +23,53 @@
 <body>
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
-<div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-        <a class="navbar-brand" href="{{ url_for('index.home') }}">Microblog</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index.home') }}">Microblog</a>
+        </div>
+
+        <div class="collapse navbar-collapse"
+             id="bs-example-navbar-collapse-1">
+            <!-- Right Nav Section -->
+            <ul class="nav navbar-nav navbar-right">
+                {% if g.user.is_authenticated() %}
+                    <li>
+                        <a href="{{ url_for('user.user', nickname=g.user.nickname) }}"><span
+                                class="glyphicon glyphicon-user"></span>
+                            You Profile
+                        </a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li><a href="{{ url_for('login.logout') }}">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <!-- Right Nav Section -->
-        <ul class="nav navbar-nav navbar-right">
-            {% if g.user.is_authenticated() %}
-                <li>
-                    <a href="{{ url_for('user.user', nickname=g.user.nickname) }}"><span class="glyphicon glyphicon-user"></span>
-                        You Profile
-                    </a>
-                </li>
-
-                <li class="divider"></li>
-
-                <li><a href="{{ url_for('login.logout') }}">
-                    <span class="glyphicon glyphicon-log-out"></span>
-                    Logout</a>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
-</div>
 </nav>
 
 <div class="container">
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-            <div class="alert alert-info alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {% for msg in messages %}
+            {% for categ, msg in messages %}
+                <div class="alert alert-{{ "info" if categ == "message" else categ }} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-hidden="true">&times;</button>
                     {{ msg }}<br/>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         {% endif %}
     {% endwith %}
 

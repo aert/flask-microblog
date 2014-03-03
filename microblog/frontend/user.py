@@ -38,17 +38,17 @@ class EditForm(Form):
 @user_bp.route('/user/<nickname>')
 @login_required
 def user(nickname):
-    user = User.query.filter_by(nickname=nickname).first()
-    if user is None:
-        flash('User %s not found.' % nickname)
+    user_found = User.query.filter_by(nickname=nickname).first()
+    if user_found is None:
+        flash('User %s not found.' % nickname, "danger")
         return redirect(url_for('index.home'))
     posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'},
+        {'author': user_found, 'body': 'Test post #1'},
+        {'author': user_found, 'body': 'Test post #2'},
     ]
     return render_template('frontend/user.html',
                            title='User',
-                           user=user,
+                           user=user_found,
                            posts=posts)
 
 
@@ -61,7 +61,7 @@ def edit():
         g.user.about_me = form.about_me.data
         db.session.add(g.user)
         db.session.commit()
-        flash('Your changes have been saved.')
+        flash('Your changes have been saved.', "success")
         return redirect(url_for('user.user', nickname=g.user.nickname))
     else:
         form.nickname.data = g.user.nickname
@@ -69,3 +69,43 @@ def edit():
         return render_template('frontend/user_edit.html',
                                title="User Edit",
                                form=form)
+
+
+@user_bp.route('/follow/<nickname>')
+@login_required
+def follow(nickname):
+    user_found = User.query.filter_by(nickname=nickname).first()
+    if user_found is None:
+        flash('User %s not found.' % nickname, "danger")
+        return redirect(url_for('index.home'))
+    if user_found == g.user:
+        flash('You can\'t follow youself !', "warning")
+        return redirect(url_for('user.user', nickname=nickname))
+    u = g.user.follow(user_found)
+    if u is None:
+        flash('You already follow %s.' % nickname)
+        return redirect(url_for('user.user', nickname=nickname))
+    db.session.add(u)
+    db.session.commit()
+    flash('You are now following %s.' % nickname, "success")
+    return redirect(url_for('user.user', nickname=nickname))
+
+
+@user_bp.route('/unfollow/<nickname>')
+@login_required
+def unfollow(nickname):
+    user_found = User.query.filter_by(nickname=nickname).first()
+    if user_found is None:
+        flash('User %s not found.' % nickname, "danger")
+        return redirect(url_for('index.home'))
+    if user_found == g.user:
+        flash('You can\'t unfollow youself !', "warning")
+        return redirect(url_for('user.user', nickname=nickname))
+    u = g.user.unfollow(user_found)
+    if u is None:
+        flash('Cannot unfollow ' + nickname + '.', "warning")
+        return redirect(url_for('user.user', nickname=nickname))
+    db.session.add(u)
+    db.session.commit()
+    flash('You have stopped following ' + nickname + '.', "success")
+    return redirect(url_for('user.user', nickname=nickname))
