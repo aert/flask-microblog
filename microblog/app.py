@@ -43,7 +43,7 @@ def configure_blueprints(app):
     app.register_blueprint(frontend.global_bp)
     app.register_blueprint(frontend.index_bp)
     app.register_blueprint(frontend.login_bp)
-    app.register_blueprint(frontend.user_bp)
+    app.register_blueprint(frontend.user_bp, url_prefix='/user')
 
 
 def configure_extensions(app):

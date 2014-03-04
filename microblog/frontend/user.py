@@ -35,7 +35,7 @@ class EditForm(Form):
 
 # --- Controllers -------------------------------------------------------------
 
-@user_bp.route('/user/<nickname>')
+@user_bp.route('/<nickname>')
 @login_required
 def user(nickname):
     user_found = User.query.filter_by(nickname=nickname).first()
@@ -52,7 +52,7 @@ def user(nickname):
                            posts=posts)
 
 
-@user_bp.route("/user/edit", methods=['GET', 'POST'])
+@user_bp.route("/edit", methods=['GET', 'POST'])
 @login_required
 def edit():
     form = EditForm(g.user.nickname)
