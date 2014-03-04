@@ -15,6 +15,7 @@ class TestUser(unittest.TestCase):
         app.config['CSRF_ENABLED'] = False
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % \
                                                 join(DATADIR, 'test_tests.db')
+        app.configure()
         self.app = app.test_client()
         db.app = app
         db.create_all()

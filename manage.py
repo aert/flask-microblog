@@ -14,12 +14,16 @@ manager.add_command("db", MigrateCommand)
 
 @manager.command
 def run_prod():
-    app.run("0.0.0.0", debug=False)
+    app.debug = False
+    app.configure()
+    app.run("0.0.0.0")
 
 
 @manager.command
 def run_debug():
-    app.run("0.0.0.0", debug=True)
+    app.debug = True
+    app.configure()
+    app.run("0.0.0.0")
 
 
 if __name__ == "__main__":

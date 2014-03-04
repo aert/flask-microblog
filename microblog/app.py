@@ -1,4 +1,5 @@
 from os.path import join
+from types import MethodType
 from flask import Flask
 from . import frontend
 from . import extensions
@@ -9,12 +10,16 @@ __all__ = ["create_app"]
 def create_app():
     app = Flask(__name__)
     app.config.from_object("microblog.config")
+    app.configure = MethodType(configure, app)
+    return app
+
+
+def configure(app):
     configure_logging(app)
     configure_blueprints(app)
     configure_extensions(app)
-
+    app.db = extensions.db
     app.logger.info('microblog initialized')
-    return app
 
 
 def configure_logging(app):
