@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object("microblog.config")
     app.configure = MethodType(configure, app)
+    configure_db(app)
     return app
 
 
@@ -51,10 +52,13 @@ def configure_extensions(app):
     if not app.debug:
         extensions.sentry.init_app(app, dsn=app.config['SENTRY_DSN'])
 
-    extensions.db.init_app(app)
-    extensions.migrate.init_app(app, extensions.db)
-
     extensions.lm.init_app(app)
     extensions.lm.login_view = 'login.login'
     extensions.oid.init_app(app)
     extensions.oid.fs_store_path = join(app.config["DATADIR"], 'tmp')
+
+
+def configure_db(app):
+    app.logger.info('configure_db')
+    extensions.db.init_app(app)
+    extensions.migrate.init_app(app, extensions.db)

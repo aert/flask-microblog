@@ -10,15 +10,29 @@
     <div class="panel panel-default">
 
         <div class="panel-heading">
-            Hello {{user.nickname}} !!
+            Hi {{g.user.nickname}} !
         </div>
 
         <div class="panel-body">
+            <form action="" method="post" name="post">
+                {{ form.hidden_tag() }}
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            {{ form.post(size=30, maxlength=140, class="form-control", placeholder='Say something...') }}
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Post!</button>
+                            </span>
+                            {% for error in form.errors.post %}
+                                <span class="text-danger">[{{ error }}]</span><br/>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr/>
             {% for post in posts %}
-                {{post.author.nickname}} says:
-                <blockquote>
-                    {{post.body}}
-                </blockquote>
+                {% include "frontend/_post.html" %}
             {% endfor %}
         </div>
         <ul class="list-group">
