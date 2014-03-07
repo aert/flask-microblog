@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "frontend/_macros.html" as macros %}
 
 {% block content %}
 
@@ -31,9 +32,13 @@
                 </div>
             </form>
             <hr/>
-            {% for post in posts %}
+            {% for post in posts.items %}
                 {% include "frontend/_post.html" %}
             {% endfor %}
+
+            {# --- Pagination --- #}
+            {{ macros.render_pagination(posts, '.home') }}
+
         </div>
         <ul class="list-group">
         </ul>

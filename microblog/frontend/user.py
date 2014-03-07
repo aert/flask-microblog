@@ -3,8 +3,9 @@ from flask.ext.login import login_required
 from flask.ext.wtf import Form
 from wtforms import TextField, TextAreaField
 from wtforms.validators import Required, Length
+from microblog.config import POST_PER_PAGE
 from microblog.extensions import db
-from microblog.models import User
+from microblog.models import User, Post
 
 
 user_bp = Blueprint('user', __name__)
@@ -36,16 +37,17 @@ class EditForm(Form):
 # --- Controllers -------------------------------------------------------------
 
 @user_bp.route('/<nickname>')
+@user_bp.route('/<nickname>/<int:page>')
 @login_required
-def user(nickname):
+def user(nickname, page=1):
     user_found = User.query.filter_by(nickname=nickname).first()
     if user_found is None:
         flash('User %s not found.' % nickname, "danger")
         return redirect(url_for('index.home'))
-    posts = [
-        {'author': user_found, 'body': 'Test post #1'},
-        {'author': user_found, 'body': 'Test post #2'},
-    ]
+    posts = user_found.posts.paginate(
+        page,
+        POST_PER_PAGE,
+        False)
     return render_template('frontend/user.html',
                            title='User',
                            user=user_found,

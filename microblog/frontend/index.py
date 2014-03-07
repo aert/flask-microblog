@@ -7,6 +7,7 @@ from wtforms import TextField
 from wtforms.validators import Required
 from microblog.extensions import db
 from microblog.models import Post
+from microblog.config import POST_PER_PAGE
 
 
 index_bp = Blueprint("index", __name__, template_folder="templates")
@@ -21,8 +22,9 @@ class PostForm(Form):
 # --- Controllers -------------------------------------------------------------
 
 @index_bp.route('/', methods=['GET', 'POST'])
+@index_bp.route('/<int:page>', methods=['GET', 'POST'])
 @login_required
-def home():
+def home(page=1):
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.post.data, timestamp=datetime.utcnow(),
@@ -32,7 +34,11 @@ def home():
         flash('Your post is now live!')
         return redirect(url_for('.home'))
 
-    posts = g.user.followed_posts().all()
+    posts = g.user.followed_posts().paginate(
+        page,
+        POST_PER_PAGE,
+        False)
+
     return render_template("frontend/index.html",
                            title="Home",
                            form=form,

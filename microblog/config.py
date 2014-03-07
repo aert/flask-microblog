@@ -23,3 +23,6 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(DATADIR, 'test.db')
 # Sentry
 SENTRY_DSN = 'http://164bac68585941efa0ba10a3e33a634a:' \
              '8c9e30a2c9104c359fe67e0147490704@sentry.aert.fr/3'
+
+# Pagination
+POST_PER_PAGE = 3
