@@ -1,6 +1,4 @@
-import tempfile
 import unittest
-from os.path import join
 from microblog.factory import create_app
 from microblog.extensions import db
 
@@ -9,8 +7,7 @@ class TestConfig(object):
     LOGIN_DISABLED = False
     TESTING = True
     CSRF_ENABLED = False,
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % join(tempfile.gettempdir(),
-                                                    "microblog_test.db")
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 
 class BaseTest(unittest.TestCase):
