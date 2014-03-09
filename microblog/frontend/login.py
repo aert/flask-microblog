@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, flash, g, url_for, session, \
     request, current_app
 from flask.ext.login import login_user, logout_user
 from flask.ext.wtf import Form
+from flask.ext.babel import gettext as _
 from werkzeug.utils import redirect
 from wtforms import TextField, BooleanField
 from wtforms.validators import Required
@@ -54,7 +55,7 @@ def login():
         return oid.try_login(form.openid.data, ask_for=['nickname', 'email'])
     return render_template(
         "frontend/login.html",
-        title="Sign In",
+        title=_("Sign In"),
         form=form,
         providers=flask.current_app.config['OPENID_PROVIDERS'])
 
@@ -68,13 +69,14 @@ def logout():
 @oid.after_login
 def after_login(resp):
     if resp.email is None or resp.email == "":
-        flash('Invalid login. Please try again.', "danger")
+        flash(_('Invalid login. Please try again.'), "danger")
         return redirect(url_for('.login'))
     user = User.query.filter_by(email=resp.email).first()
     if user is None:
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
+        nickname = User.make_valid_nickname(nickname)
         nickname = User.make_unique_nickname(nickname)
         user = User(nickname=nickname, email=resp.email, role=ROLE_USER)
         db.session.add(user)

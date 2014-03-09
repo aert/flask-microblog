@@ -1,9 +1,15 @@
+from os.path import join
 import unittest
 from microblog.factory import create_app
 from microblog.extensions import db
+from microblog.config import WORKINGDIR
 
 
 class TestConfig(object):
+    WORKINGDIR = join(WORKINGDIR, "tests")
+    LOGDIR = join(WORKINGDIR, "log")
+    WHOOSH_BASE = join(WORKINGDIR, "whoosh")
+
     LOGIN_DISABLED = False
     TESTING = True
     CSRF_ENABLED = False,

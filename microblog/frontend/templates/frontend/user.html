@@ -2,7 +2,7 @@
 {% import "frontend/_macros.html" as macros %}
 
 {% block page_header %}
-    <h1>User's Profile</h1>
+    <h1>{{ _("User's Profile") }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -13,26 +13,26 @@
                  style="vertical-align: top"/>
 
             <div style="display: inline-block">
-                User: <strong>{{ user.nickname }}</strong>
+                {{ _('User') }}: <strong>{{ user.nickname }}</strong>
                 {% if g.user.id == user.id %}
-                    - <a href="{{ url_for('user.edit') }}">Edit</a>
+                    - <a href="{{ url_for('user.edit') }}">{{ _('Edit') }}</a>
                 {% endif %}
                 <br/>
                 {% if user.about_me %}
                     {{ user.about_me }}<br/>
                 {% endif %}
                 {% if user.last_seen %}
-                    <em>Last seen on: {{ momentjs(user.last_seen).calendar() }}</em><br/>
+                    <em>{{ _('Last seen on') }}: {{ momentjs(user.last_seen).calendar() }}</em><br/>
                 {% endif %}
                 <div>
                     {{ user.followers.count() }} followers
                     {% if user.id != g.user.id %}
                         {% if not g.user.is_following(user) %}
                             |
-                            <a href="{{ url_for('user.follow', nickname=user.nickname) }}">Follow</a>
+                            <a href="{{ url_for('user.follow', nickname=user.nickname) }}">{{ _('Follow') }}</a>
                         {% else %}
                             |
-                            <a href="{{ url_for('user.unfollow', nickname=user.nickname) }}">UnFollow</a>
+                            <a href="{{ url_for('user.unfollow', nickname=user.nickname) }}">{{ _('UnFollow') }}</a>
                         {% endif %}
                     {% endif %}
                 </div>

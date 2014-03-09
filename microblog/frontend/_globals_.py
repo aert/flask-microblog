@@ -6,6 +6,7 @@ from wtforms import TextField
 from wtforms.validators import Required
 from microblog.config import MAX_SEARCH_RESULTS
 from microblog.extensions import db
+from microblog.lib.locale import get_locale
 from microblog.models import Post
 
 
@@ -28,6 +29,7 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
         g.search_form = SearchForm()
+    g.locale = get_locale()
 
 
 @global_bp.app_errorhandler(404)

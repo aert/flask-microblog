@@ -2,7 +2,7 @@
 {% import "frontend/_macros.html" as macros %}
 
 {% block page_header %}
-    <h1>Posts</h1>
+    <h1>{{ _('Posts') }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
     <div class="panel panel-default">
 
         <div class="panel-heading">
-            Hi {{ g.user.nickname }} !
+            {{ _('Hi %(nickname)s !', nickname=g.user.nickname) }}
         </div>
 
         <div class="panel-body">
@@ -19,10 +19,10 @@
                 <div class="row">
                     <div class="col-lg-10">
                         <div class="input-group">
-                            {{ form.post(size=30, maxlength=140, class="form-control", placeholder='Say something...') }}
+                            {{ form.post(size=30, maxlength=140, class="form-control", placeholder=_('Say something...')) }}
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
-                                    Post!
+                                    {{ _('Post!') }}
                                 </button>
                             </span>
                             {% for error in form.errors.post %}

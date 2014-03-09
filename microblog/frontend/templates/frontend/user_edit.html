@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block page_header %}
-    <h1>Edit Your Profile</h1>
+    <h1>{{ _('Edit Your Profile') }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                Profile Infos
+                {{ _('Profile Infos') }}
             </div>
 
             <div class="panel-body">
@@ -19,7 +19,7 @@
                     {{ form.hidden_tag() }}
                     <div class="form-group">
                         <label for="nickname">
-                            Your nickname
+                            {{ _('Your nickname') }}
                         </label>
                         {{ form.nickname(class="form-control") }}
                         {% for error in form.errors.nickname %}
@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="about_me">
-                            About yourself
+                            {{ _('About yourself') }}
                         </label>
                         {{ form.about_me(class="form-control") }}
                         {% for error in form.errors.about_me %}
@@ -40,8 +40,7 @@
                         <div class="col-xs-12">
                             <button type="submit"
                                     class="btn btn-primary btn-block">
-                                Save
-                                changes
+                                {{ _('Save changes') }}
                             </button>
                         </div>
                     </div>

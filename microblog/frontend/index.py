@@ -3,6 +3,7 @@ from flask import Blueprint, g, flash, redirect, url_for
 from flask import render_template
 from flask.ext.login import login_required
 from flask.ext.wtf import Form
+from flask.ext.babel import gettext as _
 from wtforms import TextField
 from wtforms.validators import Required
 from microblog.extensions import db
@@ -31,7 +32,7 @@ def home(page=1):
                     author=g.user)
         db.session.add(post)
         db.session.commit()
-        flash('Your post is now live!')
+        flash(_('Your post is now live!'), "success")
         return redirect(url_for('.home'))
 
     posts = g.user.followed_posts().paginate(
@@ -40,6 +41,6 @@ def home(page=1):
         False)
 
     return render_template("frontend/index.html",
-                           title="Home",
+                           title=_("Home"),
                            form=form,
                            posts=posts)

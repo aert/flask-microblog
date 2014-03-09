@@ -1,3 +1,4 @@
+# coding=utf-8
 from os.path import join, abspath, dirname, isdir
 from os import makedirs
 
@@ -40,3 +41,9 @@ POST_PER_PAGE = 3
 # flask-whooshalchemy
 WHOOSH_BASE = join(WORKINGDIR, "whoosh")
 MAX_SEARCH_RESULTS = 50
+
+# Babel
+LANGUAGES = {
+    'en': 'English',
+    'fr': 'Français'
+}

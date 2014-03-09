@@ -1,4 +1,5 @@
 from hashlib import md5
+import re
 from ..extensions import db
 from microblog.models import Post
 
@@ -83,6 +84,10 @@ class User(db.Model):
                 break
             version += 1
         return new_nickname
+
+    @staticmethod
+    def make_valid_nickname(nickname):
+        return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
 
     def __repr__(self):
         return "<User %r>" % self.nickname

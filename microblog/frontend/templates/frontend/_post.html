@@ -8,7 +8,13 @@
                  alt="user-icon"/>
         </td>
         <td>
-            <em>{{ post.author.nickname }} said {{momentjs(post.timestamp).from_now()}} :</em><br/>
+            <em>
+                {% autoescape false %}
+                  {{ _('%(nickname)s said %(when)s :',
+                     nickname='<a href="%s">%s</a>' % (url_for('user.user', nickname=post.author.nickname), post.author.nickname),
+                     when=momentjs(post.timestamp).from_now()) }}
+                {% endautoescape %}
+            </em><br/>
             <b>{{ post.body }}</b>
         </td>
     </tr>

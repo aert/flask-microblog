@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from os.path import join
 from flask import Flask, current_app
 from . import frontend
 from . import extensions
+from flask.ext.babel import gettext as _
 from .config import create_dirs
 from . import models                 # NOQA
 from flask.ext import whooshalchemy  # NOQA
+from microblog.lib.locale import get_locale
 from microblog.lib.momentjs import MomentJs
 
 
@@ -35,8 +39,8 @@ def create_app(settings_override=None):
 
 
 def configure(app):
-    configure_blueprints(app)
     configure_extensions(app)
+    configure_blueprints(app)
     configure_jinja(app)
     app.logger.info('microblog initialized')
 
@@ -81,12 +85,17 @@ def configure_extensions(app):
     extensions.db.init_app(app)
     extensions.migrate.init_app(app, extensions.db)
 
+    # Babel
+    extensions.babel.init_app(app)
+    extensions.babel.localeselector(get_locale)
+
     # WHOOSH
     #whooshalchemy.whoosh_index(app, models.Post)
 
     # Login
     extensions.lm.init_app(app)
     extensions.lm.login_view = 'login.login'
+    extensions.lm.localize_callback = _gettext
 
     # OID
     extensions.oid.init_app(app)
@@ -101,3 +110,7 @@ def before_first_request():
     if not current_app.debug:
         extensions.sentry.init_app(current_app,
                                    dsn=current_app.config['SENTRY_DSN'])
+
+
+def _gettext(msg):
+    return _(msg)
