@@ -24,6 +24,7 @@ def create_app(settings_override=None):
     create_dirs(app.config['WORKINGDIR'])
     create_dirs(app.config['LOGDIR'])
     create_dirs(app.config['WHOOSH_BASE'])
+    create_dirs(app.config['OID_FS_STORE_PATH'])
 
     configure(app)
 
