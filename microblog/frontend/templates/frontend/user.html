@@ -22,7 +22,7 @@
                     {{ user.about_me }}<br/>
                 {% endif %}
                 {% if user.last_seen %}
-                    <em>Last seen on: {{ user.last_seen }}</em><br/>
+                    <em>Last seen on: {{ momentjs(user.last_seen).calendar() }}</em><br/>
                 {% endif %}
                 <div>
                     {{ user.followers.count() }} followers

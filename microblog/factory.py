@@ -5,6 +5,7 @@ from . import extensions
 from .config import create_dirs
 from . import models                 # NOQA
 from flask.ext import whooshalchemy  # NOQA
+from microblog.lib.momentjs import MomentJs
 
 
 __all__ = ["create_app"]
@@ -36,7 +37,12 @@ def create_app(settings_override=None):
 def configure(app):
     configure_blueprints(app)
     configure_extensions(app)
+    configure_jinja(app)
     app.logger.info('microblog initialized')
+
+
+def configure_jinja(app):
+    app.jinja_env.globals.update(momentjs=MomentJs)
 
 
 def configure_logging(app):

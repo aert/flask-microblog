@@ -8,7 +8,7 @@
                  alt="user-icon"/>
         </td>
         <td>
-            <em>{{ post.author.nickname }} says:</em><br/>
+            <em>{{ post.author.nickname }} said {{momentjs(post.timestamp).from_now()}} :</em><br/>
             <b>{{ post.body }}</b>
         </td>
     </tr>
