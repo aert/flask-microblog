@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block page_header %}
+    <h1>Login</h1>
+{% endblock %}
+
 {% block content %}
     <script type="text/javascript">
         function set_openid(url, name) {
@@ -16,10 +20,6 @@
     </script>
 
 
-    <div class="page-header">
-        <h1>Login</h1>
-    </div>
-
     <div class="col-md-6 col-md-offset-3">
 
         <div class="panel panel-default">
@@ -32,7 +32,8 @@
                     {{ form.hidden_tag() }}
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <label for="openid">Please enter your OpenID</label>
+                            <label for="openid">Please enter your
+                                OpenID</label>
                             {{ form.openid(size=80, class="form-control") }}
                             {% for error in form.errors.openid %}
                                 <span class="text-danger">{{ error }}</span>
@@ -64,7 +65,8 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary btn-block">
+                            <button type="submit"
+                                    class="btn btn-primary btn-block">
                                 Sign In
                             </button>
                         </div>

@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
+{% block page_header %}
+    <h1>Edit Your Profile</h1>
+{% endblock %}
 
 {% block content %}
-
-    <div class="page-header">
-        <h1>Edit Your Profile</h1>
-    </div>
 
     <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-default">
@@ -39,7 +38,8 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary btn-block">
+                            <button type="submit"
+                                    class="btn btn-primary btn-block">
                                 Save
                                 changes
                             </button>
