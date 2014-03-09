@@ -1,28 +1,11 @@
-import unittest
-from os.path import join
 from datetime import datetime, timedelta
 
-from microblog.app import create_app
-from microblog.config import DATADIR
 from microblog.extensions import db
 from microblog.models import User, Post
+from tests.base import BaseTest
 
 
-class TestUser(unittest.TestCase):
-    def setUp(self):
-        app = create_app()
-        app.config['TESTING'] = True
-        app.config['CSRF_ENABLED'] = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % \
-                                                join(DATADIR, 'test_tests.db')
-        app.configure()
-        self.app = app.test_client()
-        db.app = app
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+class TestUser(BaseTest):
 
     def test_avatar(self):
         u = User(nickname='john', email='john@example.com')

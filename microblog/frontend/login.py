@@ -1,6 +1,6 @@
 import flask
 from flask import Blueprint, render_template, flash, g, url_for, session, \
-    request
+    request, current_app
 from flask.ext.login import login_user, logout_user
 from flask.ext.wtf import Form
 from werkzeug.utils import redirect
@@ -22,11 +22,31 @@ class LoginForm(Form):
 
 # --- Controllers -------------------------------------------------------------
 
+class Mock(object):
+    pass
+
+
+@login_bp.route("/testing-login", methods=["POST"])
+def testing_login():
+    if not current_app.config['TESTING']:
+        raise Exception("NOT IN TESTING MODE")
+
+    form = LoginForm()
+
+    #if not form.validate_on_submit():
+    #    raise Exception("validate_on_submit = False!")
+
+    resp = Mock()
+    resp.email = form.openid.data
+    resp.nickname = None
+    return after_login(resp)
+
+
 @login_bp.route("/login", methods=["GET", "POST"])
 @oid.loginhandler
 def login():
     if g.user is not None and g.user.is_authenticated():
-        return redirect(url_for('index'))
+        return redirect(url_for('index.home'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -49,7 +69,7 @@ def logout():
 def after_login(resp):
     if resp.email is None or resp.email == "":
         flash('Invalid login. Please try again.', "danger")
-        return redirect(url_for('login'))
+        return redirect(url_for('.login'))
     user = User.query.filter_by(email=resp.email).first()
     if user is None:
         nickname = resp.nickname
@@ -67,7 +87,7 @@ def after_login(resp):
         remember_me = session['remember_me']
         session.pop('remember_me', None)
     login_user(user, remember_me)
-    return redirect(request.args.get('next') or url_for('index'))
+    return redirect(request.args.get('next') or url_for('index.home'))
 
 
 @lm.user_loader

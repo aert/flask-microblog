@@ -1,7 +1,16 @@
-from os.path import join, abspath, dirname
+from os.path import join, abspath, dirname, isdir
+from os import makedirs
+
+
+def create_dirs(*directories):
+    for dirpath in directories:
+        if not isdir(dirpath):
+            makedirs(dirpath)
+
 
 BASEDIR = abspath(dirname(__file__))
-DATADIR = dirname(BASEDIR)
+WORKINGDIR = join(dirname(BASEDIR), "working")
+LOGDIR = join(WORKINGDIR, "log")
 
 
 # Flask-WTF
@@ -16,9 +25,10 @@ OPENID_PROVIDERS = [
     {'name': 'Flickr', 'url': 'http://www.flickr.com/<username>'},
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}
 ]
+OID_FS_STORE_PATH = join(WORKINGDIR, "oid")
 
 # SQLAlchemy
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(DATADIR, 'test.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(WORKINGDIR, 'database.db')
 
 # Sentry
 SENTRY_DSN = 'http://164bac68585941efa0ba10a3e33a634a:' \
@@ -26,3 +36,7 @@ SENTRY_DSN = 'http://164bac68585941efa0ba10a3e33a634a:' \
 
 # Pagination
 POST_PER_PAGE = 3
+
+# flask-whooshalchemy
+WHOOSH_BASE = join(WORKINGDIR, "whoosh")
+MAX_SEARCH_RESULTS = 50

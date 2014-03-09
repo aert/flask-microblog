@@ -5,7 +5,7 @@ from wtforms import TextField, TextAreaField
 from wtforms.validators import Required, Length
 from microblog.config import POST_PER_PAGE
 from microblog.extensions import db
-from microblog.models import User, Post
+from microblog.models import User
 
 
 user_bp = Blueprint('user', __name__)
