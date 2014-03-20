@@ -1,0 +1,17 @@
+
+%table.col-xs-12
+    %col style="width: 60px;"
+    %col width="*"
+    %tr
+        %td valign="top"
+            %img src="{{ post.author.avatar(50) }}" alt="user-icon"
+        %td
+            %em
+                -autoescape false
+                  {{ _('%(nickname)s said %(when)s :',
+                     nickname='<a href="%s">%s</a>' % (url_for('user.user', nickname=post.author.nickname), post.author.nickname),
+                     when=momentjs(post.timestamp).from_now()) }}
+            %br
+            %b << {{ post.body }}
+
+%p << &nbsp;

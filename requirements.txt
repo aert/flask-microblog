@@ -12,3 +12,4 @@ pytz==2013.9
 flask-babel==0.9
 flup==1.0.2
 raven[flask]==4.0.4
+hamlish_jinja==0.3.2

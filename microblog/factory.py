@@ -5,6 +5,7 @@ from flask import Flask, current_app
 from . import frontend
 from . import extensions
 from flask.ext.babel import gettext as _
+from hamlish_jinja import HamlishExtension
 from .config import create_dirs
 from . import models                 # NOQA
 from flask.ext import whooshalchemy  # NOQA
@@ -46,6 +47,9 @@ def configure(app):
 
 
 def configure_jinja(app):
+    app.jinja_env.add_extension(HamlishExtension)
+    app.jinja_env.hamlish_file_extensions = ('.haml', )
+    app.jinja_env.hamlish_enable_div_shortcut = True
     app.jinja_env.globals.update(momentjs=MomentJs)
 
 

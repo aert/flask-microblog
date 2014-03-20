@@ -56,6 +56,6 @@ def search():
 @login_required
 def search_results(query):
     results = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
-    return render_template('frontend/search_results.html',
+    return render_template('frontend/search_results.haml',
                            query=query,
                            results=results)

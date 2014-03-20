@@ -1,0 +1,12 @@
+
+-extends "base.html"
+
+-block page_header
+    %h1 << {{ _('Search results for "%(query)s"', query=query) }}
+
+-block content
+
+    .panel.panel-default
+        .panel-body
+            -for post in results:
+                -include 'frontend/_post.html'
