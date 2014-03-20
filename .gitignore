@@ -40,3 +40,7 @@ test_tests.db
 .pydevproject
 .idea
 /working
+
+# Assets
+microblog/static/.webassets-cache/
+microblog/static/gen/

@@ -11,15 +11,14 @@
         {% endif %}
     </title>
 
-    <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {% assets filters="cssmin", output="gen/app.css",
+          "css/bootstrap.min.css", "css/app.css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
 
-    <!-- If you are using the gem version, you need this only -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/app.css') }}">
-
-    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+    {% assets filters="jsmin", output="gen/app.js", "js/moment.min.js"%}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
     <script type="text/javascript">
         moment.lang('{{ g.locale }}');
@@ -100,7 +99,10 @@
 
 <!-- Javascript -->
 
-<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+{% assets filters="jsmin", output="gen/app-body.js",
+                           "js/jquery.js", 'js/bootstrap.min.js' %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
 </body>
 </html>

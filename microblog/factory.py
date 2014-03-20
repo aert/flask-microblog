@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from os.path import join
-from flask import Flask, current_app
+from flask import Flask, current_app, url_for
 from . import frontend
 from . import extensions
 from flask.ext.babel import gettext as _
@@ -104,6 +104,9 @@ def configure_extensions(app):
     # OID
     extensions.oid.init_app(app)
     extensions.oid.fs_store_path = app.config['OID_FS_STORE_PATH']
+
+    # Assets
+    extensions.assets.init_app(app)
 
 
 def before_first_request():

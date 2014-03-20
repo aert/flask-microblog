@@ -1,5 +1,6 @@
 import datetime
-from flask import Blueprint, g, render_template, redirect, url_for
+from os import path
+from flask import Blueprint, g, render_template, redirect, url_for, send_from_directory
 from flask.ext.login import current_user, login_required
 from flask.ext.wtf import Form
 from wtforms import TextField
@@ -30,6 +31,12 @@ def before_request():
         db.session.commit()
         g.search_form = SearchForm()
     g.locale = get_locale()
+
+
+@global_bp.route('/favicon.ico')
+def favicon():
+    return send_from_directory(path.join(global_bp.root_path, '..', 'static'),
+                               'img/favicon.ico')
 
 
 @global_bp.app_errorhandler(404)

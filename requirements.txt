@@ -13,3 +13,6 @@ flask-babel==0.9
 flup==1.0.2
 raven[flask]==4.0.4
 hamlish_jinja==0.3.2
+Flask-Assets==0.9
+cssmin==0.2.0
+jsmin==2.0.9

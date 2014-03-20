@@ -4,6 +4,7 @@ from flask.ext.migrate import Migrate
 from flask.ext.openid import OpenID
 from flask.ext.sqlalchemy import SQLAlchemy
 from raven.contrib.flask import Sentry
+from flask.ext.assets import Environment
 
 
 # SQLAlchemy
@@ -23,3 +24,6 @@ sentry = Sentry()
 
 # Flask-Babel
 babel = Babel()
+
+# Flask-Assets
+assets = Environment()
